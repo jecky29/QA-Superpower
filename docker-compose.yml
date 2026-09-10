@@ -1,0 +1,65 @@
+services:
+  qa-control:
+    build: .
+    ports:
+      - "127.0.0.1:7070:7070"
+    environment: &qa-env
+      HOST: 0.0.0.0
+      PORT: 7070
+      PUBLIC_BASE_URL: ${PUBLIC_BASE_URL:-http://127.0.0.1:7070}
+      ADMIN_USERNAME: admin
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-ChangeMe123!}
+      QA_MASTER_KEY: ${QA_MASTER_KEY:-dev-only-change-this-master-key}
+      QA_WORKER_TOKEN: ${QA_WORKER_TOKEN:-}
+      DISTRIBUTED_MODE: "true"
+      WORKER_CONCURRENCY: ${WORKER_CONCURRENCY:-2}
+      ENABLE_REMOTE_TARGETS: ${ENABLE_REMOTE_TARGETS:-false}
+      ALLOWED_TARGET_HOSTS: ${ALLOWED_TARGET_HOSTS:-}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      OPENAI_MODEL: ${OPENAI_MODEL:-gpt-5.6}
+      INTEGRATION_ALLOWED_HOSTS: ${INTEGRATION_ALLOWED_HOSTS:-}
+      QA_DATA_DIR: /app/data
+      QA_ARTIFACT_DIR: /app/artifacts
+    volumes:
+      - qa-data:/app/data
+      - qa-artifacts:/app/artifacts
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:7070/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+
+  qa-worker-1:
+    build: .
+    command: ["node","worker.js"]
+    depends_on:
+      qa-control:
+        condition: service_healthy
+    environment:
+      <<: *qa-env
+      QA_CONTROL_PLANE_URL: http://qa-control:7070
+      QA_WORKER_NAME: docker-worker-1
+    volumes:
+      - qa-data:/app/data
+      - qa-artifacts:/app/artifacts
+    restart: unless-stopped
+
+  qa-worker-2:
+    build: .
+    command: ["node","worker.js"]
+    depends_on:
+      qa-control:
+        condition: service_healthy
+    environment:
+      <<: *qa-env
+      QA_CONTROL_PLANE_URL: http://qa-control:7070
+      QA_WORKER_NAME: docker-worker-2
+    volumes:
+      - qa-data:/app/data
+      - qa-artifacts:/app/artifacts
+    restart: unless-stopped
+
+volumes:
+  qa-data:
+  qa-artifacts:

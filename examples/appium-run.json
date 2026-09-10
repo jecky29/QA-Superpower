@@ -1,0 +1,13 @@
+{
+  "serverUrl": "http://127.0.0.1:4723",
+  "capabilities": {
+    "platformName": "Android",
+    "appium:automationName": "UiAutomator2",
+    "appium:deviceName": "Android Emulator"
+  },
+  "steps": [
+    {"action": "find", "using": "accessibility id", "value": "Login"},
+    {"action": "click", "using": "accessibility id", "value": "Login"},
+    {"action": "screenshot"}
+  ]
+}

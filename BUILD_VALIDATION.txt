@@ -1,0 +1,56 @@
+QA Superpower V4 Build Validation
+Generated: 2026-09-10T08:58:39Z
+
+$ npm run check
+
+> qa-superpower-enterprise@4.0.0 check
+> node --check server.js && node --check worker.js && node scripts/check-modules.js && node scripts/check-frontend.js
+
+Backend modules syntax: OK
+Frontend JavaScript syntax: OK
+
+$ npm test
+
+> qa-superpower-enterprise@4.0.0 test
+> node scripts/selftest-v4.mjs
+
+QA Superpower V4 self-test: PASS
+{
+  "version": "4.0.0",
+  "distributed": true,
+  "checks": [
+    "frontend",
+    "health",
+    "auth",
+    "websocket-ticket",
+    "test-data",
+    "mock-service",
+    "contract-store",
+    "vault",
+    "test-management-sync",
+    "sso-oidc-pkce-jwks",
+    "sso-ldap-config",
+    "git-storage",
+    "distributed-worker-register",
+    "distributed-job-lease-events",
+    "contract-runner",
+    "appium-w3c",
+    "sqlite-local-routing",
+    "autonomous-agent-approval",
+    "v3-engineering-tools",
+    "reports",
+    "dashboard"
+  ],
+  "worker": "selftest-worker",
+  "jobs": 5,
+  "playwrightInstalled": false,
+  "ldapPackageInstalled": false
+}
+
+$ UI structure validation
+HTML IDs: 176; duplicate IDs: []
+UI sections: 26: dashboard, ai, recorder, trace, api, db, regression, scheduler, cicd, history, defects, environment, users, live, workers, sso, testmgmt, git, visual, contracts, a11y, mobile, agent, testdata, mocks, tools
+
+$ YAML validation
+docker-compose.yml: YAML OK
+k8s/qa-superpower-v4.yaml: YAML OK

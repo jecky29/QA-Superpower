@@ -1,0 +1,7 @@
+node_modules
+npm-debug.log
+.git
+.selftest
+.pdfcheck
+data/qa-superpower.db*
+artifacts/*

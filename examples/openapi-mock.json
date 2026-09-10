@@ -1,0 +1,27 @@
+{
+  "openapi": "3.0.3",
+  "info": {"title": "Order Mock", "version": "1.0.0"},
+  "paths": {
+    "/mock/orders/orders/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Order",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["id", "status"],
+                  "properties": {
+                    "id": {"type": "string"},
+                    "status": {"type": "string", "enum": ["PAID", "PENDING"]}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
