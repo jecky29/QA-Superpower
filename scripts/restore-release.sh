@@ -11,8 +11,8 @@ mkdir -p "$RUNTIME_DIR"
 rm -rf "$RUNTIME_DIR/qa-superpower-v4" "$ZIP"
 
 parts=("$RELEASE_DIR"/qa-superpower-v4-enterprise.zip.b64.part*)
-if [ "${#parts[@]}" -ne 15 ]; then
-  echo "Expected 15 release chunks, found ${#parts[@]}" >&2
+if [ "${#parts[@]}" -ne 17 ]; then
+  echo "Expected 17 physical release chunks, found ${#parts[@]}" >&2
   exit 1
 fi
 
