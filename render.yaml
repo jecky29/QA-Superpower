@@ -1,0 +1,37 @@
+services:
+  - type: web
+    name: qa-superpower-v4
+    runtime: node
+    plan: free
+    branch: main
+    autoDeployTrigger: commit
+    buildCommand: bash scripts/render-build.sh
+    startCommand: bash scripts/render-start.sh
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: HOST
+        value: 0.0.0.0
+      - key: TRUST_PROXY
+        value: "true"
+      - key: DISTRIBUTED_MODE
+        value: "false"
+      - key: WORKER_CONCURRENCY
+        value: "2"
+      - key: ENABLE_REMOTE_TARGETS
+        value: "false"
+      - key: QA_DATA_DIR
+        value: /tmp/qa-superpower/data
+      - key: QA_ARTIFACT_DIR
+        value: /tmp/qa-superpower/artifacts
+      - key: QA_GIT_DIR
+        value: /tmp/qa-superpower/git-repos
+      - key: QA_MASTER_KEY
+        generateValue: true
+      - key: ADMIN_USERNAME
+        value: admin
+      - key: ADMIN_PASSWORD
+        generateValue: true
+      - key: INSTALL_PLAYWRIGHT_BROWSER
+        value: "false"
