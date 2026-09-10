@@ -3,6 +3,7 @@ services:
     name: qa-superpower-v4
     runtime: node
     plan: free
+    region: singapore
     branch: main
     autoDeployTrigger: commit
     buildCommand: bash scripts/render-build.sh
